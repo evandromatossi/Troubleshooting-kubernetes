@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+  script.sh: >-
+    MATCH01=""
+
+    echo "Fazendo validacao se o Match $MATCH01 existe. "
+
+    sleep 1
+
+    echo "Resultado da pesquisa!!"
+
+    kubectl get vs --all-namespaces
+    -o=jsonpath='{range.items[*]}{.metadata.name}{"\t"}{.spec.http[*].match[*].method}{"\t"}{.spec.http[*].match[*].uri}{"\n"}'
+    | grep $MATCH01
+kind: ConfigMap
+metadata:
+  name: script-configmap-corp-cr-query-connector
+  namespace: spinnaker
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: script-job-corp-cr-query-connector
+  name: script-job-corp-cr-query-connector
+  namespace: spinnaker
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+        - command:
+            - sh
+            - /opt/script/script.sh
+          image: 'bitnami/kubectl:1.17.3'
+          name: script
+          volumeMounts:
+            - mountPath: /opt/script
+              name: script-configmap-corp-cr-query-connector
+              readOnly: false
+      restartPolicy: Never
+      serviceAccountName: spinnaker-service-account
+      volumes:
+        - configMap:
+            name: script-configmap-corp-cr-query-connector
+          name: script-configmap-corp-cr-query-connector
