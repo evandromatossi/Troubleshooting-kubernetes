@@ -11,7 +11,7 @@ data:
 
     REPO_BITBUCKET="/scm/hs/repositrio.git"
 
-    OPENAPI_ENDERECO="api.nome.endpoints.mkp-cross-clusters-dev.cloud.goog"
+    OPENAPI_ENDERECO="api.nome.endpoints.dev.cloud.goog"
 
     DEPLOY_OPENAPI="repositorio/bitbucket/openapi.yaml"
 
