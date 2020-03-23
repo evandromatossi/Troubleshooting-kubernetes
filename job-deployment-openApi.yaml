@@ -1,0 +1,105 @@
+apiVersion: v1
+data:
+  script.sh: >-
+    GCP_CREDENTIAL="/opt/openapi/credentials.json"
+
+    BITBUCKET_SECRET=$(cat /opt/openapi/passwdbitbucket)
+
+    PROJECT_NAME="nome_do_projeto"
+
+    OPENAPI_FILE="openapi.yaml"
+
+    REPO_BITBUCKET="/scm/hs/repositrio.git"
+
+    OPENAPI_ENDERECO="api.nome.endpoints.mkp-cross-clusters-dev.cloud.goog"
+
+    DEPLOY_OPENAPI="repositorio/bitbucket/openapi.yaml"
+
+    echo "\n Aplicando openApi no ambiente $PROJECT_NAME"
+
+    echo "\n Autenticando no projeto $PROJECT_NAME"
+
+    gcloud auth activate-service-account --key-file=$GCP_CREDENTIAL
+
+    echo "\n configurando o prejeto que será feito o deploy do openApi"
+
+    gcloud config set project $PROJECT_NAME
+
+    gcloud config list --format "value(core.project)" 2>/dev/null
+
+    echo "\n fazendo git clone do arquivo openapi.yaml no repositorio bitbucket
+    $REPO_BITBUCKET"
+
+    git clone http://user-bitbucket:$BITBUCKET_SECRET@10.7.2.168:7990$REPO_BITBUCKET
+
+    sed -i 's#-prod.#-dev.#' $DEPLOY_OPENAPI
+
+    echo "\n Executando o deploy do openApi"
+
+    gcloud endpoints services deploy $DEPLOY_OPENAPI
+
+    echo "\n Habilitando o serviço de openApi $OPENAPI_ENDERECO"
+
+    sleep 300
+
+    gcloud services enable $OPENAPI_ENDERECO
+
+    sleep 30
+
+    echo "\n Verificando se o openApi $OPENAPI_ENDERECO está ativo" 
+
+    gcloud services list --available | grep $OPENAPI_ENDERECO
+
+    echo "\n \n Segue abaixo o arquivo swagger que foi realizado o deploy no
+    ambiente $PROJECT_NAME \n"
+
+    cat $DEPLOY_OPENAPI
+kind: ConfigMap
+metadata:
+  name: openapi
+  namespace: spinnaker
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: job-openapi
+  name: job-openapi
+  namespace: spinnaker
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+        - command:
+            - sh
+            - /opt/script/script.sh
+          image: 'google/cloud-sdk:latest'
+          name: script
+          volumeMounts:
+            - mountPath: /opt/script
+              name: openapi
+              readOnly: false
+            - mountPath: /opt/openapi
+              name: openapi-secret
+              readOnly: false
+      restartPolicy: Never
+      serviceAccountName: spinnaker-service-account
+      volumes:
+        - configMap:
+            name: openapi
+          name: openapi
+        - name: openapi-secret
+          secret:
+            secretName: secret-create-openapi
+---
+apiVersion: v1
+data:
+  credentials.json: >-
+    base 64 service account
+  passwdbitbucket: senha-base-64
+kind: Secret
+metadata:
+  name: secret-create-openapi
+  namespace: spinnaker
+type: Opaque
