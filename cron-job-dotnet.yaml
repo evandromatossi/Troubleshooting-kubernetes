@@ -21,7 +21,7 @@ spec:
                 - secretRef:
                     name: chaves-mtr-prateleira
               image: >-
-                gcr.io/brasil-k8s-cluster-infra/jobs/mtr-prateleira:${trigger['buildInfo']['scm'][0]['branch']}-${trigger['buildNumber']}
+                gcr.io/
               name: executor-mtr-prateleira
               ports:
                 - containerPort: 5000
