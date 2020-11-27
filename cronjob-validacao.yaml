@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: monitoramento-aks
+  namespace: validacao-aks
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: monitoramento-aks
+            image: andrersg69/monitoring:validacao-aks
+            command: [ "/root/files/validacao-cluster-aks.sh" ]
+          restartPolicy: OnFailure
