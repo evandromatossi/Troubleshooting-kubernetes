@@ -11,7 +11,7 @@
 #set -x
 
 #### Webhook do teams sre
-WEBHOOK_URL="https://outlook.office.com/webhook/2788ebf2-d880-4de3-a917-7b2b7e8742be@5a86b3fb-4213-49cd-b4d6-be91482ad3c0/IncomingWebhook/120f69654def4207a6e4ed59748a9d49/572b7657-643c-495a-8ce5-5188a1c28f91"
+WEBHOOK_URL="https://outlook.office.com/webhook/"
 
 for loop in {1..10000}; do
 
