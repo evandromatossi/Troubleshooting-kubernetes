@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limit-range-memory-spinnaker
+  namespace: spinnaker
+spec:
+  limits:
+  - max:
+      memory: 1Gi
+    min:
+      memory: 250Mi
+    type: Container
