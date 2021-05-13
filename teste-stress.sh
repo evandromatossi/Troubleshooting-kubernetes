@@ -1,4 +1,4 @@
-## while true; do curl -v url-api && sleep 5 ; done
+## while true; do curl -v url-api && sleep 3 ; done
 #!/bin/bash
 
 for i in {1..10000}; do
