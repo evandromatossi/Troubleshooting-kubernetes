@@ -1,0 +1,25 @@
+https://linux.die.net/man/1/siege
+
+exemplo
+
+siege -c5 -t10S --content-type "application/json"   'https://url
+ca4837 POST {​​​​​​​​
+    "items": [{​​​​​​​​
+        "departament": null,
+        "category": null,
+        "sku": "16024",
+        "quantity": 1,
+        "price": "162",
+        "dimensions": {​​​​​​​​
+          "width": "0.14",
+          "depth": "0.19",
+          "height": "0.02",
+          "weight": "0.15"
+        }​​​​​​​​
+    }​​​​​​​​],
+    "seller_id": 3,
+    "origin_zip_code": "88058493",
+    "destination_zip_code": "09520650",
+    "brand": "B2CPF",
+    "serviceModality": "POSTAGEM"
+  }​​​​​​​​'
