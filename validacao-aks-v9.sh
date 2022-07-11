@@ -16,11 +16,7 @@ WEBHOOK_URL="https://outlook.office.com/webhook/"
 ##### validação cluster aks
 function cluster_validacao_aks(){
     ##Colocar aqui o context do AKS
-    for cluster in aks-chama-nozap-prd-admin akspriv-adanalytics-prd-admin akspriv-apicatalogo-prd-admin akspriv-awx-prd-admin akspriv-bigdata-prd-admin akspriv-bonificacao-
-prd-admin akspriv-busca-prd-admin akspriv-categorias-prd-admin akspriv-chamanozap-prd-admin akspriv-checkout-prd-admin akspriv-cupom-omni-prd-admin akspriv-custsuccess-prd-a
-dmin akspriv-descoberta-prd-admin akspriv-eventbus-prd-admin akspriv-favoritos-prd-admin akspriv-ferrpromo-prd-admin akspriv-intmotor-prd-admin akspriv-kong-prd-admin akspri
-v-log-central-prd-admin akspriv-mensageria-prd-admin akspriv-meuspedidos-prd-admin akspriv-mktplace-prd-admin akspriv-msite-prd-admin akspriv-pdp-prd-admin akspriv-personal-
-prd-admin akspriv-pricing-prd-admin akspriv-retira-prd-admin akspriv-rh-prd-admin akspriv-roleta-prd-admin akspriv-viapag-prd-admin akspriv-viaunica-prd-admin; do
+    for cluster in aks-1 aks-2 aks-3 aks-4; do
       kubectx ${cluster}
       CLUSTER=$(kubectl config current-context)
 
