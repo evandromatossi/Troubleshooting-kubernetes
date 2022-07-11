@@ -18,7 +18,7 @@ for loop in {1..10000}; do
 ##### validação cluster aks
 function cluster_validacao_aks(){
     ##Colocar aqui o context do AKS
-    for cluster in akspriv-pricing-prd-admin akspriv-viaunica-prd-admin akspriv-apicatalogo-prd-admin akspriv-bonificacao-prd-admin akspriv-descoberta-prd-admin akspriv-kong-prd-admin akspriv-meuspedidos-prd-admin ; do
+    for cluster in aks-1 aks-2 aks-3 aks-4 ; do
       kubectx ${cluster}
       CLUSTER=$(kubectl config current-context)
       
